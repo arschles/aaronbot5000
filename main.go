@@ -5,9 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/arschles/aaronbot5000/pkg/cmd"
 	"github.com/arschles/aaronbot5000/pkg/config"
-	"github.com/erikstmartin/erikbotdev/cmd"
-	_ "github.com/erikstmartin/erikbotdev/modules/bot"
 )
 
 var configFileName string

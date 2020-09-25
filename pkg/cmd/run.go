@@ -6,9 +6,9 @@ import (
 	"os/signal"
 
 	"github.com/arschles/aaronbot5000/bot"
-	"github.com/erikstmartin/erikbotdev/http"
-	"github.com/erikstmartin/erikbotdev/modules/obs"
-	"github.com/erikstmartin/erikbotdev/modules/twitch"
+	"github.com/arschles/aaronbot5000/http"
+	"github.com/arschles/aaronbot5000/modules/obs"
+	"github.com/arschles/aaronbot5000/modules/twitch"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +32,7 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		go http.Start(":8080", "./web")
 
-		err := bot.InitDatabase(bot.DatabasePath(), 0600)
+		err := db.InitDatabase(bot.DatabasePath(), 0600)
 		if err != nil {
 			if err.Error() == "timeout" {
 				log.Fatal("Timeout opening database. Check to ensure another process does not have the database file open")
