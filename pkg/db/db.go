@@ -4,9 +4,13 @@ package db
 // YOU DON'T PLAY CHESS, CHESS PLAYS YOU
 
 import (
+	"context"
+	"errors"
+	"os"
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/nicklaw5/helix"
 )
 
 // var db *bbolt.DB
@@ -54,24 +58,39 @@ var COUNTER_BUCKET = []byte("Counters")
 // 	return counters
 // }
 
-func New(redisAddr, redisPass string) (*redis.Client, error) {
+// New creates a new redis client with the given address and password
+func New(ctx context.Context) (*redis.Client, error) {
+	redisAddr := os.Getenv("BOT_REDIS_ADDR")
+	redisPass := os.Getenv("BOT_REDIS_PASS")
+	if redisAddr == "" {
+		return nil, errors.New("BOT_REDIS_ADDR missing")
+	}
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     redisAddr,
 		Password: redisPass,
 		DB:       0,
 	})
-	pong, err := rdb.Ping(ctx).Result()
+	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
 		return nil, err
 	}
 
+	return rdb, nil
+}
+
+// StartUpdateFollowersLoop starts a loop in a goroutine to periodically
+// update followers from the twitch API
+func StartUpdateFollowersLoop(
+	ctx context.Context,
+	followTarget string,
+	redisCl *redis.Client,
+	helixCl *helix.Client,
+) {
 	go func() {
-		UpdateFollowers(rdb)
+		UpdateFollowers(ctx, followTarget, redisCl, helixCl)
 		t := time.NewTicker(5 * time.Minute)
 		for range t.C {
-			UpdateFollowers(rdb)
+			UpdateFollowers(ctx, followTarget, redisCl, helixCl)
 		}
 	}()
-
-	return rdb, nil
 }

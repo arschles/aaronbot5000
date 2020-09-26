@@ -7,6 +7,7 @@ require (
 	github.com/christopher-dG/go-obs-websocket v0.0.0-20200720193653-c4fed10356a5
 	github.com/erikstmartin/erikbotdev v0.0.0-20200918190557-92b81678924a
 	github.com/gempir/go-twitch-irc/v2 v2.4.1
+	github.com/go-redis/redis/v8 v8.2.2
 	github.com/gorilla/websocket v1.4.2
 	github.com/hashicorp/golang-lru v0.5.4
 	github.com/mitchellh/mapstructure v1.3.3 // indirect

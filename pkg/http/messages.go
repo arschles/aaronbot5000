@@ -1,5 +1,7 @@
 package http
 
+import "os/user"
+
 type Message interface {
 }
 
@@ -9,8 +11,8 @@ type WebsocketMessage struct {
 }
 
 type ChatMessage struct {
-	// User *bot.User `json:"user"`
-	Text string `json:"text"`
+	User *user.User `json:"user"`
+	Text string     `json:"text"`
 }
 
 type RaidMessage struct {
