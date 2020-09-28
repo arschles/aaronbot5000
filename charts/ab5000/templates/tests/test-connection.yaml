@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "ab5000.fullname" . }}-test-connection"
+  labels:
+    app.kubernetes.io/name: {{ include "ab5000.name" . }}
+    helm.sh/chart: {{ include "ab5000.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "ab5000.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

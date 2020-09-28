@@ -18,7 +18,6 @@ FROM alpine:${ALPINE_VERSION}
 
 COPY --from=builder /bin/aaronbot5000 /bin/aaronbot5000
 
-
 EXPOSE 8080
 
 CMD ["/bin/aaronbot5000"]
